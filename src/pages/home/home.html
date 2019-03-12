@@ -1,0 +1,48 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>
+      Container Tracker IoT Device
+    </ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-grid>
+
+    <ion-row>
+      <ion-col>
+        <ion-card>
+
+          <ion-card-header>
+            <strong>Configuration</strong>
+          </ion-card-header>
+
+          <ion-card-content>
+            <ion-item>
+              <ion-label color="primary" floating>Upload URL</ion-label>
+              <ion-input type="text" [(ngModel)]="uploadUrl"></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-label color="primary" floating>Update Interval (in ms)</ion-label>
+              <ion-input type="text" [(ngModel)]="updateInterval"></ion-input>
+            </ion-item>
+
+          </ion-card-content>
+
+        </ion-card>
+
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <button ion-button full (click)="openCameraPage()" [disabled]="uploadUrl == '' || updateInterval == ''">Start Tracking</button>
+    </ion-row>
+
+  </ion-grid>
+
+</ion-content>
