@@ -27,6 +27,12 @@ export class CameraPage {
 
   private intervalTimer: any;
 
+  /**
+   * This variable gets used instead of calling "this.cameraPreview.stopCamera()" as only then it is gurantee that
+   * the camera does not get stopped while it actually gets used to take a photo!
+   */
+  private stopCamera: boolean;
+
   private cameraPreviewOpts: CameraPreviewOptions = {
     x: 0,
     y: 50,
@@ -48,6 +54,8 @@ export class CameraPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, private http: HttpClient, private cameraPreview: CameraPreview, private storage: Storage, private insomnia: Insomnia, private screenOrientation: ScreenOrientation) {
     this.uploadUrl = this.navParams.get(AppConfig.STORAGE_UPLOAD_URL);
     this.updateInterval = this.navParams.get(AppConfig.STORAGE_KEY_UPDATE_INTERVAL);
+
+    this.stopCamera = false;
   }
 
   /**
@@ -100,18 +108,15 @@ export class CameraPage {
    * 3. stop the camera
    */
   private ionViewWillLeave() {
+    // stop camera (!!while this does not look nice it works much more reliable!!)
+    this.stopCamera = true;
+
     // allow the phone to sleep
     this.insomnia.allowSleepAgain().then(
       () => Logger.log('Allowed to sleep.'),
       (error) => Logger.error(error)
     );
 
-    // end update interval
-    clearInterval(this.intervalTimer);
-    Logger.log("Ended Camera Recording!");
-
-    // stop the camera preview
-    this.cameraPreview.stopCamera();
 
     // allow user rotate device
     this.screenOrientation.unlock();
@@ -126,6 +131,8 @@ export class CameraPage {
    */
   private takeAndUploadPicture() {
     // ############# 1. Take the picture #############
+    Logger.log("HALLO");
+    Logger.log(this.updateInterval);
     this.cameraPreview.takePicture(this.pictureOpts).then((base64PictureData) => {
       Logger.log("Took picture successfully.");
       // save the  picture as base64 encoded string
@@ -145,6 +152,19 @@ export class CameraPage {
           Logger.error('Something went wrong while uploading the image!' + JSON.stringify(err));
         }
       );
+
+      // ############# 3. check if camera should be stopped #############
+      if (this.stopCamera) {
+        // end update interval
+        clearInterval(this.intervalTimer);
+        Logger.log("Ended Camera Recording!");
+
+        // stop the camera preview
+        this.cameraPreview.stopCamera().then(
+          () => Logger.log('Stopped Camera.'),
+          (error) => Logger.error(error)
+        );
+      }
     }, (error: any) => {
       Logger.error(error);
     });
