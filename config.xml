@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="wenzel.paul" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="wenzel.paul.visualobservation" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Visual-Observation-Demo</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="wenzel.paul@web.de" href="http://ionicframework.com/">Ionic Framework Team</author>

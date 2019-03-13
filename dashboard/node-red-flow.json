@@ -1,8 +1,8 @@
 [
   {
-    "id": "36ae033b.5a6e44",
+    "id": "f1e01be6.3add08",
     "type": "inject",
-    "z": "f4d00bb9.71ecb8",
+    "z": "cf3a9c97.ac6d88",
     "name": "Remove all data",
     "topic": "",
     "payload": "",
@@ -10,18 +10,18 @@
     "repeat": "",
     "crontab": "",
     "once": false,
-    "x": 1196.6285400390625,
-    "y": 813.8428955078125,
+    "x": 1186.6285400390625,
+    "y": 628.8428955078125,
     "wires": [
       [
-        "e43b532c.799e28"
+        "4241113e.ffa47"
       ]
     ]
   },
   {
-    "id": "5c7ef6de.f89248",
+    "id": "23096760.ac0198",
     "type": "inject",
-    "z": "f4d00bb9.71ecb8",
+    "z": "cf3a9c97.ac6d88",
     "name": "Reload UI",
     "topic": "",
     "payload": "",
@@ -29,98 +29,81 @@
     "repeat": "0.4",
     "crontab": "",
     "once": true,
-    "x": 766.8035888671875,
-    "y": 700.2054443359375,
+    "x": 756.8035888671875,
+    "y": 515.2054443359375,
     "wires": [
       [
-        "3fa9d8c9.5efb5",
-        "2aa0bf28.2ff788"
+        "fb0e1146.865968"
       ]
     ]
   },
   {
-    "id": "e43b532c.799e28",
+    "id": "4241113e.ffa47",
     "type": "function",
-    "z": "f4d00bb9.71ecb8",
+    "z": "cf3a9c97.ac6d88",
     "name": "Remove all data",
     "func": "flow.set(\"imageData\", undefined);\n\nreturn null;\n",
     "outputs": 1,
     "noerr": 0,
-    "x": 1407.62841796875,
-    "y": 764.54296875,
+    "x": 1397.62841796875,
+    "y": 579.54296875,
     "wires": [
       []
     ]
   },
   {
-    "id": "cfe1de5.76ab12",
+    "id": "efff0855.7da4f",
     "type": "function",
-    "z": "f4d00bb9.71ecb8",
+    "z": "cf3a9c97.ac6d88",
     "name": "Store Image Data",
     "func": "// get all the image data\nlet imageData = flow.get(\"imageData\") || [];\n\n// store the image\nimageData.push({\n    \"timestamp\": new Date(),\n    \"image\": msg.payload.image\n});\n\nflow.set(\"imageData\", imageData)\n\nreturn {payload: imageData};",
     "outputs": 1,
     "noerr": 0,
-    "x": 508,
-    "y": 702.6429443359375,
+    "x": 498,
+    "y": 517.6429443359375,
     "wires": [
       [
-        "1556108f.05c9bf"
+        "d59363b9.e5ce7"
       ]
     ]
   },
   {
-    "id": "3fa9d8c9.5efb5",
-    "type": "function",
-    "z": "f4d00bb9.71ecb8",
-    "name": "Load Image",
-    "func": "let imageData = flow.get(\"imageData\");\n\n// check if their is an image for the selected deivce\nif (imageData !== undefined) {\n    return {\"payload\":imageData[imageData.length - 1].image};   \n} else {\n    return {\"payload\":\"\"};\n}",
-    "outputs": 1,
-    "noerr": 0,
-    "x": 1000,
-    "y": 698.6429443359375,
-    "wires": [
-      [
-        "cf3d8ec2.42ca2"
-      ]
-    ]
-  },
-  {
-    "id": "caa313e9.e293d8",
+    "id": "34f96041.6bc3e8",
     "type": "http in",
-    "z": "f4d00bb9.71ecb8",
+    "z": "cf3a9c97.ac6d88",
     "name": "Image Upload",
     "url": "/image-upload2",
     "method": "post",
     "upload": true,
     "swaggerDoc": "",
-    "x": 85,
-    "y": 704.1429443359375,
+    "x": 75,
+    "y": 519.1429443359375,
     "wires": [
       [
-        "9d6f478f.d9459",
-        "cfe1de5.76ab12"
+        "5e5acad0.7c92cc",
+        "efff0855.7da4f"
       ]
     ]
   },
   {
-    "id": "9d6f478f.d9459",
+    "id": "5e5acad0.7c92cc",
     "type": "http response",
-    "z": "f4d00bb9.71ecb8",
+    "z": "cf3a9c97.ac6d88",
     "name": "Success Response",
     "statusCode": "200",
     "headers": {
       "Access-Control-Allow-Origin": "*"
     },
-    "x": 309,
-    "y": 850.1429443359375,
+    "x": 299,
+    "y": 665.1429443359375,
     "wires": []
   },
   {
-    "id": "ea085d0d.5c403",
+    "id": "45a17ea7.3ea218",
     "type": "ui_button",
-    "z": "f4d00bb9.71ecb8",
+    "z": "cf3a9c97.ac6d88",
     "name": "Clear Data",
-    "group": "414c3823.985bc8",
+    "group": "e963ee72.4c994",
     "order": 0,
     "width": "0",
     "height": "0",
@@ -132,38 +115,19 @@
     "payload": "true",
     "payloadType": "bool",
     "topic": "",
-    "x": 1189.75,
-    "y": 715.6429443359375,
+    "x": 1179.75,
+    "y": 530.6429443359375,
     "wires": [
       [
-        "e43b532c.799e28"
+        "4241113e.ffa47"
       ]
     ]
   },
   {
-    "id": "cf3d8ec2.42ca2",
+    "id": "74f32960.0fb1a",
     "type": "ui_template",
-    "z": "f4d00bb9.71ecb8",
-    "group": "414c3823.985bc8",
-    "name": "Image",
-    "order": 1,
-    "width": "10",
-    "height": "9",
-    "format": "<img src=\"{{msg.payload}}\"\n alt='No image available.'\n width=\"200px\"\n>",
-    "storeOutMessages": false,
-    "fwdInMessages": false,
-    "templateScope": "local",
-    "x": 1193.4642333984375,
-    "y": 611,
-    "wires": [
-      []
-    ]
-  },
-  {
-    "id": "d5b167b8.9b28e",
-    "type": "ui_template",
-    "z": "f4d00bb9.71ecb8",
-    "group": "699810a.1c84cf",
+    "z": "cf3a9c97.ac6d88",
+    "group": "e963ee72.4c994",
     "name": "List of all images",
     "order": 6,
     "width": "12",
@@ -172,61 +136,51 @@
     "storeOutMessages": true,
     "fwdInMessages": false,
     "templateScope": "local",
-    "x": 1156,
-    "y": 533,
+    "x": 1146,
+    "y": 348,
     "wires": [
       []
     ]
   },
   {
-    "id": "2aa0bf28.2ff788",
+    "id": "fb0e1146.865968",
     "type": "function",
-    "z": "f4d00bb9.71ecb8",
+    "z": "cf3a9c97.ac6d88",
     "name": "Load Images",
     "func": "let imageData = flow.get(\"imageData\");\n\n// check if their is an image for the selected deivce\nif (imageData !== undefined) {\n    return {\"payload\":imageData};   \n} else {\n    return {\"payload\":\"\"};\n}",
     "outputs": 1,
     "noerr": 0,
-    "x": 963,
-    "y": 589,
+    "x": 953,
+    "y": 404,
     "wires": [
       [
-        "d5b167b8.9b28e"
+        "74f32960.0fb1a"
       ]
     ]
   },
   {
-    "id": "1556108f.05c9bf",
+    "id": "d59363b9.e5ce7",
     "type": "debug",
-    "z": "f4d00bb9.71ecb8",
+    "z": "cf3a9c97.ac6d88",
     "name": "",
     "active": true,
     "console": "false",
     "complete": "true",
-    "x": 481.5,
-    "y": 812.5,
+    "x": 471.5,
+    "y": 627.5,
     "wires": []
   },
   {
-    "id": "414c3823.985bc8",
-    "type": "ui_group",
-    "z": "f4d00bb9.71ecb8",
-    "name": "Image",
-    "tab": "e99d19fb.228a5",
-    "order": 2,
-    "disp": false,
-    "width": "10"
-  },
-  {
-    "id": "699810a.1c84cf",
+    "id": "e963ee72.4c994",
     "type": "ui_group",
     "z": "",
     "name": "Image List",
-    "tab": "e99d19fb.228a5",
-    "disp": true,
-    "width": "12"
+    "tab": "b3f31fc8.291a18",
+    "disp": false,
+    "width": "22"
   },
   {
-    "id": "e99d19fb.228a5",
+    "id": "b3f31fc8.291a18",
     "type": "ui_tab",
     "z": "",
     "name": "Visual Recognition",
