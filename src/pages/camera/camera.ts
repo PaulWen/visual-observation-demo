@@ -140,7 +140,6 @@ export class CameraPage {
 
       // ############# 2. Upload the picture #############
       this.http.post(this.uploadUrl, {
-        "deviceId": this.navParams.get('id'),
         "image": image
       }).subscribe(
         // Successful responses call the first callback.
