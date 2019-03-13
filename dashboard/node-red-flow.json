@@ -33,7 +33,8 @@
     "y": 700.2054443359375,
     "wires": [
       [
-        "3fa9d8c9.5efb5"
+        "3fa9d8c9.5efb5",
+        "2aa0bf28.2ff788"
       ]
     ]
   },
@@ -42,7 +43,7 @@
     "type": "function",
     "z": "f4d00bb9.71ecb8",
     "name": "Remove all data",
-    "func": "flow.set(\"imageData\", undefined);\nflow.set(\"imageId\", undefined);\n\nreturn null;\n",
+    "func": "flow.set(\"imageData\", undefined);\n\nreturn null;\n",
     "outputs": 1,
     "noerr": 0,
     "x": 1407.62841796875,
@@ -56,13 +57,15 @@
     "type": "function",
     "z": "f4d00bb9.71ecb8",
     "name": "Store Image Data",
-    "func": "// get all the image data\nlet imageId = flow.get(\"imageId\") || 0;\nlet imageData = flow.get(\"imageData\") || [];\n\n// store the image\nimageData[imageId] = \"\" + msg.payload.image;\nimageId++;\n\nflow.set(\"imageId\", imageId)\nflow.set(\"imageData\", imageData)\n\nreturn null;",
+    "func": "// get all the image data\nlet imageData = flow.get(\"imageData\") || [];\n\n// store the image\nimageData.push({\n    \"timestamp\": new Date(),\n    \"image\": msg.payload.image\n});\n\nflow.set(\"imageData\", imageData)\n\nreturn {payload: imageData};",
     "outputs": 1,
     "noerr": 0,
     "x": 508,
     "y": 702.6429443359375,
     "wires": [
-      []
+      [
+        "1556108f.05c9bf"
+      ]
     ]
   },
   {
@@ -70,7 +73,7 @@
     "type": "function",
     "z": "f4d00bb9.71ecb8",
     "name": "Load Image",
-    "func": "let imageData = flow.get(\"imageData\");\n\n// check if their is an image for the selected deivce\nif (imageData !== undefined) {\n    return {\"payload\":imageData[imageData.length - 1]};   \n} else {\n    return {\"payload\":\"\"};\n}",
+    "func": "let imageData = flow.get(\"imageData\");\n\n// check if their is an image for the selected deivce\nif (imageData !== undefined) {\n    return {\"payload\":imageData[imageData.length - 1].image};   \n} else {\n    return {\"payload\":\"\"};\n}",
     "outputs": 1,
     "noerr": 0,
     "x": 1000,
@@ -86,7 +89,7 @@
     "type": "http in",
     "z": "f4d00bb9.71ecb8",
     "name": "Image Upload",
-    "url": "/image-upload",
+    "url": "/image-upload2",
     "method": "post",
     "upload": true,
     "swaggerDoc": "",
@@ -157,6 +160,53 @@
     ]
   },
   {
+    "id": "d5b167b8.9b28e",
+    "type": "ui_template",
+    "z": "f4d00bb9.71ecb8",
+    "group": "699810a.1c84cf",
+    "name": "List of all images",
+    "order": 6,
+    "width": "12",
+    "height": "15",
+    "format": "<md-list style=\"display: grid; grid-template-columns: 50% 50%;\">\n    <md-list-item class=\"md-3-line\" ng-repeat=\"image in msg.payload | orderBy:'-timestamp'\">\n        \n        <md-card style=\"box-shadow: 1px 1px 2px 0 lightgray;\">\n            <img ng-src=\"{{image.image}}\" class=\"md-card-image\" alt=\"No image available.\">\n            <md-card-title>\n              <md-card-title-text>\n                <span class=\"md-headline\">Classification</span>\n              </md-card-title-text>\n            </md-card-title>\n            <md-card-content>\n              <p>\n                Score\n              </p>\n            </md-card-content>\n        </md-card>\n        \n    </md-list-item>\n</md-list>",
+    "storeOutMessages": true,
+    "fwdInMessages": false,
+    "templateScope": "local",
+    "x": 1156,
+    "y": 533,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "2aa0bf28.2ff788",
+    "type": "function",
+    "z": "f4d00bb9.71ecb8",
+    "name": "Load Images",
+    "func": "let imageData = flow.get(\"imageData\");\n\n// check if their is an image for the selected deivce\nif (imageData !== undefined) {\n    return {\"payload\":imageData};   \n} else {\n    return {\"payload\":\"\"};\n}",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 963,
+    "y": 589,
+    "wires": [
+      [
+        "d5b167b8.9b28e"
+      ]
+    ]
+  },
+  {
+    "id": "1556108f.05c9bf",
+    "type": "debug",
+    "z": "f4d00bb9.71ecb8",
+    "name": "",
+    "active": true,
+    "console": "false",
+    "complete": "true",
+    "x": 481.5,
+    "y": 812.5,
+    "wires": []
+  },
+  {
     "id": "414c3823.985bc8",
     "type": "ui_group",
     "z": "f4d00bb9.71ecb8",
@@ -167,10 +217,19 @@
     "width": "10"
   },
   {
+    "id": "699810a.1c84cf",
+    "type": "ui_group",
+    "z": "",
+    "name": "Image List",
+    "tab": "e99d19fb.228a5",
+    "disp": true,
+    "width": "12"
+  },
+  {
     "id": "e99d19fb.228a5",
     "type": "ui_tab",
     "z": "",
-    "name": "Home",
-    "icon": "home"
+    "name": "Visual Recognition",
+    "icon": "camera"
   }
 ]
