@@ -1,8 +1,8 @@
 [
   {
-    "id": "f1e01be6.3add08",
+    "id": "7a7ae430.986c3c",
     "type": "inject",
-    "z": "cf3a9c97.ac6d88",
+    "z": "c1db979c.a832b8",
     "name": "Remove all data",
     "topic": "",
     "payload": "",
@@ -10,18 +10,18 @@
     "repeat": "",
     "crontab": "",
     "once": false,
-    "x": 1186.6285400390625,
-    "y": 628.8428955078125,
+    "x": 1439.1285400390625,
+    "y": 1116.8428955078125,
     "wires": [
       [
-        "4241113e.ffa47"
+        "5ba2dab.2908524"
       ]
     ]
   },
   {
-    "id": "23096760.ac0198",
+    "id": "aad7c0a2.b3cae",
     "type": "inject",
-    "z": "cf3a9c97.ac6d88",
+    "z": "c1db979c.a832b8",
     "name": "Reload UI",
     "topic": "",
     "payload": "",
@@ -29,81 +29,82 @@
     "repeat": "0.4",
     "crontab": "",
     "once": true,
-    "x": 756.8035888671875,
-    "y": 515.2054443359375,
+    "onceDelay": "",
+    "x": 1009.3035888671875,
+    "y": 1003.2054443359375,
     "wires": [
       [
-        "fb0e1146.865968"
+        "b2a704ff.c55348"
       ]
     ]
   },
   {
-    "id": "4241113e.ffa47",
+    "id": "5ba2dab.2908524",
     "type": "function",
-    "z": "cf3a9c97.ac6d88",
+    "z": "c1db979c.a832b8",
     "name": "Remove all data",
-    "func": "flow.set(\"imageData\", undefined);\n\nreturn null;\n",
+    "func": "flow.set(\"imageData\", undefined);\n\nflow.set(\"classificationData\", [\n    {\n    \"class\": \"Aligned\",\n    \"score\": \"0.91\"    \n    },\n    {\n    \"class\": \"Aligned\",\n    \"score\": \"0.83\"    \n    },\n    {\n    \"class\": \"Unaligned\",\n    \"score\": \"0.87\"    \n    }\n    ]);\n\nreturn null;\n",
     "outputs": 1,
     "noerr": 0,
-    "x": 1397.62841796875,
-    "y": 579.54296875,
+    "x": 1650.12841796875,
+    "y": 1067.54296875,
     "wires": [
       []
     ]
   },
   {
-    "id": "efff0855.7da4f",
+    "id": "da32a0ea.e402",
     "type": "function",
-    "z": "cf3a9c97.ac6d88",
+    "z": "c1db979c.a832b8",
     "name": "Store Image Data",
     "func": "// get all the image data\nlet imageData = flow.get(\"imageData\") || [];\n\n// store the image\nimageData.push({\n    \"timestamp\": new Date(),\n    \"image\": msg.payload.image\n});\n\nflow.set(\"imageData\", imageData)\n\nreturn {payload: imageData};",
     "outputs": 1,
     "noerr": 0,
-    "x": 498,
-    "y": 517.6429443359375,
+    "x": 690,
+    "y": 1000,
     "wires": [
       [
-        "d59363b9.e5ce7"
+        "b8b9f7eb.23ed88"
       ]
     ]
   },
   {
-    "id": "34f96041.6bc3e8",
+    "id": "4d332126.2a54",
     "type": "http in",
-    "z": "cf3a9c97.ac6d88",
+    "z": "c1db979c.a832b8",
     "name": "Image Upload",
     "url": "/image-upload2",
     "method": "post",
     "upload": true,
     "swaggerDoc": "",
-    "x": 75,
-    "y": 519.1429443359375,
+    "x": 327.5,
+    "y": 1007.1429443359375,
     "wires": [
       [
-        "5e5acad0.7c92cc",
-        "efff0855.7da4f"
+        "c65fa0a2.f6765",
+        "da32a0ea.e402"
       ]
     ]
   },
   {
-    "id": "5e5acad0.7c92cc",
+    "id": "c65fa0a2.f6765",
     "type": "http response",
-    "z": "cf3a9c97.ac6d88",
+    "z": "c1db979c.a832b8",
     "name": "Success Response",
     "statusCode": "200",
     "headers": {
       "Access-Control-Allow-Origin": "*"
     },
-    "x": 299,
-    "y": 665.1429443359375,
+    "x": 551.5,
+    "y": 1153.1429443359375,
     "wires": []
   },
   {
-    "id": "45a17ea7.3ea218",
+    "id": "326c1972.cf4ec6",
     "type": "ui_button",
-    "z": "cf3a9c97.ac6d88",
+    "z": "c1db979c.a832b8",
     "name": "Clear Data",
-    "group": "e963ee72.4c994",
+    "group": "f5626cc9.c02db",
     "order": 0,
     "width": "0",
     "height": "0",
@@ -115,72 +116,171 @@
     "payload": "true",
     "payloadType": "bool",
     "topic": "",
-    "x": 1179.75,
-    "y": 530.6429443359375,
+    "x": 1432.25,
+    "y": 1018.6429443359375,
     "wires": [
       [
-        "4241113e.ffa47"
+        "5ba2dab.2908524"
       ]
     ]
   },
   {
-    "id": "74f32960.0fb1a",
+    "id": "ff708616.871b18",
     "type": "ui_template",
-    "z": "cf3a9c97.ac6d88",
-    "group": "e963ee72.4c994",
+    "z": "c1db979c.a832b8",
+    "group": "f5626cc9.c02db",
     "name": "List of all images",
     "order": 6,
-    "width": "12",
-    "height": "15",
-    "format": "<md-list style=\"display: grid; grid-template-columns: 50% 50%;\">\n    <md-list-item class=\"md-3-line\" ng-repeat=\"image in msg.payload | orderBy:'-timestamp'\">\n        \n        <md-card style=\"box-shadow: 1px 1px 2px 0 lightgray;\">\n            <img ng-src=\"{{image.image}}\" class=\"md-card-image\" alt=\"No image available.\">\n            <md-card-title>\n              <md-card-title-text>\n                <span class=\"md-headline\">Classification</span>\n              </md-card-title-text>\n            </md-card-title>\n            <md-card-content>\n              <p>\n                Score\n              </p>\n            </md-card-content>\n        </md-card>\n        \n    </md-list-item>\n</md-list>",
+    "width": "14",
+    "height": "14",
+    "format": "<md-list style=\"display: grid; grid-template-columns: 50% 50%;\">\n    <md-list-item class=\"md-3-line\" ng-repeat=\"image in msg.payload | orderBy:'-timestamp'\" style=\"margin:20px; margin-bottom:300px\">\n        \n        <md-card style=\"box-shadow: 1px 1px 2px 0 lightgray;\">\n            <img ng-src=\"{{image.image}}\" class=\"md-card-image\" alt=\"No image available.\">\n            <md-card-title>\n              <md-card-title-text>\n                <span class=\"md-headline\">Classification: {{image.class}}</span>\n              </md-card-title-text>\n            </md-card-title>\n            <md-card-content>\n              <p>\n                Score: {{image.score}}\n              </p>\n            </md-card-content>\n        </md-card>\n        \n    </md-list-item>\n</md-list>",
     "storeOutMessages": true,
     "fwdInMessages": false,
     "templateScope": "local",
-    "x": 1146,
-    "y": 348,
+    "x": 1398.5,
+    "y": 836,
     "wires": [
       []
     ]
   },
   {
-    "id": "fb0e1146.865968",
+    "id": "b2a704ff.c55348",
     "type": "function",
-    "z": "cf3a9c97.ac6d88",
+    "z": "c1db979c.a832b8",
     "name": "Load Images",
-    "func": "let imageData = flow.get(\"imageData\");\n\n// check if their is an image for the selected deivce\nif (imageData !== undefined) {\n    return {\"payload\":imageData};   \n} else {\n    return {\"payload\":\"\"};\n}",
+    "func": "let imageData = flow.get(\"imageData\");\nlet classificationData = flow.get(\"classificationData\");\n\nif (imageData && classificationData) {\n imageData.forEach((item, i) => {\n     if (classificationData[i]) {\n        item.class = classificationData[i].class;\n        item.score = classificationData[i].score;\n     }\n})\n   \n}\n\n// check if their is an image for the selected deivce\nif (imageData !== undefined) {\n    return {\"payload\":imageData};   \n} else {\n    return {\"payload\":\"\"};\n}",
     "outputs": 1,
     "noerr": 0,
-    "x": 953,
-    "y": 404,
+    "x": 1205.5,
+    "y": 892,
     "wires": [
       [
-        "74f32960.0fb1a"
+        "ff708616.871b18"
       ]
     ]
   },
   {
-    "id": "d59363b9.e5ce7",
+    "id": "b8b9f7eb.23ed88",
     "type": "debug",
-    "z": "cf3a9c97.ac6d88",
+    "z": "c1db979c.a832b8",
     "name": "",
     "active": true,
     "console": "false",
     "complete": "true",
-    "x": 471.5,
-    "y": 627.5,
+    "x": 724,
+    "y": 1115.5,
     "wires": []
   },
   {
-    "id": "e963ee72.4c994",
+    "id": "a8b6bb69.0c295",
+    "type": "visual-recognition-v3",
+    "z": "c1db979c.a832b8",
+    "name": "",
+    "vr-service-endpoint": "https://gateway-a.watsonplatform.net/visual-recognition/api",
+    "image-feature": "classifyImage",
+    "lang": "en",
+    "x": 560,
+    "y": 820,
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "81820824.bc85e8",
+    "type": "debug",
+    "z": "c1db979c.a832b8",
+    "name": "",
+    "active": true,
+    "tosidebar": true,
+    "console": false,
+    "tostatus": false,
+    "complete": "true",
+    "targetType": "full",
+    "x": 790,
+    "y": 660,
+    "wires": []
+  },
+  {
+    "id": "60517a56.69d15c",
+    "type": "function",
+    "z": "c1db979c.a832b8",
+    "name": "",
+    "func": "msg = {\n    \"payload\":\"https://assets.porttechnology.org/images/made/images/uploads/news/Hapag_Lloyd_Barzan_590_330_84.jpg\",\n    \"params\":{\n        \"classifier_ids\":\"DefaultCustomModel_924895071\"\n    }\n}\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 330,
+    "y": 820,
+    "wires": [
+      [
+        "a8b6bb69.0c295"
+      ]
+    ]
+  },
+  {
+    "id": "706cecb4.5e45a4",
+    "type": "visual-recognition-util-v3",
+    "z": "c1db979c.a832b8",
+    "name": "",
+    "image-feature": "retrieveClassifiersList",
+    "x": 560,
+    "y": 640,
+    "wires": [
+      [
+        "81820824.bc85e8"
+      ]
+    ]
+  },
+  {
+    "id": "4ea8d424.4f9d4c",
+    "type": "inject",
+    "z": "c1db979c.a832b8",
+    "name": "",
+    "topic": "",
+    "payload": "https://assets.porttechnology.org/images/made/images/uploads/news/Hapag_Lloyd_Barzan_590_330_84.jpg",
+    "payloadType": "str",
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "onceDelay": 0.1,
+    "x": 220,
+    "y": 920,
+    "wires": [
+      [
+        "60517a56.69d15c"
+      ]
+    ]
+  },
+  {
+    "id": "e3f1ae9f.05c1b",
+    "type": "inject",
+    "z": "c1db979c.a832b8",
+    "name": "",
+    "topic": "",
+    "payload": "",
+    "payloadType": "date",
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "x": 360,
+    "y": 698.25,
+    "wires": [
+      [
+        "706cecb4.5e45a4"
+      ]
+    ]
+  },
+  {
+    "id": "f5626cc9.c02db",
     "type": "ui_group",
     "z": "",
     "name": "Image List",
-    "tab": "b3f31fc8.291a18",
+    "tab": "dce9cdc4.5a44a",
     "disp": false,
-    "width": "22"
+    "width": "14",
+    "collapse": false
   },
   {
-    "id": "b3f31fc8.291a18",
+    "id": "dce9cdc4.5a44a",
     "type": "ui_tab",
     "z": "",
     "name": "Visual Recognition",
