@@ -1,8 +1,8 @@
 [
   {
-    "id": "7a7ae430.986c3c",
+    "id": "2d45a085.4f96b8",
     "type": "inject",
-    "z": "c1db979c.a832b8",
+    "z": "36d0c2fb.a9b7be",
     "name": "Remove all data",
     "topic": "",
     "payload": "",
@@ -10,99 +10,102 @@
     "repeat": "",
     "crontab": "",
     "once": false,
-    "x": 1439.1285400390625,
-    "y": 1116.8428955078125,
+    "x": 1340,
+    "y": 660,
     "wires": [
       [
-        "5ba2dab.2908524"
+        "1a73c86e.ee9f1"
       ]
     ]
   },
   {
-    "id": "aad7c0a2.b3cae",
+    "id": "890ab81c.376c78",
     "type": "inject",
-    "z": "c1db979c.a832b8",
+    "z": "36d0c2fb.a9b7be",
     "name": "Reload UI",
     "topic": "",
     "payload": "",
     "payloadType": "date",
     "repeat": "0.4",
     "crontab": "",
-    "once": true,
+    "once": false,
     "onceDelay": "",
-    "x": 1009.3035888671875,
-    "y": 1003.2054443359375,
+    "x": 910.175048828125,
+    "y": 546.362548828125,
     "wires": [
       [
-        "b2a704ff.c55348"
+        "c05b6f72.49348"
       ]
     ]
   },
   {
-    "id": "5ba2dab.2908524",
+    "id": "1a73c86e.ee9f1",
     "type": "function",
-    "z": "c1db979c.a832b8",
+    "z": "36d0c2fb.a9b7be",
     "name": "Remove all data",
     "func": "flow.set(\"imageData\", undefined);\n\nflow.set(\"classificationData\", [\n    {\n    \"class\": \"Aligned\",\n    \"score\": \"0.91\"    \n    },\n    {\n    \"class\": \"Aligned\",\n    \"score\": \"0.83\"    \n    },\n    {\n    \"class\": \"Unaligned\",\n    \"score\": \"0.87\"    \n    }\n    ]);\n\nreturn null;\n",
     "outputs": 1,
     "noerr": 0,
-    "x": 1650.12841796875,
-    "y": 1067.54296875,
-    "wires": [
-      []
-    ]
-  },
-  {
-    "id": "da32a0ea.e402",
-    "type": "function",
-    "z": "c1db979c.a832b8",
-    "name": "Store Image Data",
-    "func": "// get all the image data\nlet imageData = flow.get(\"imageData\") || [];\n\n// store the image\nimageData.push({\n    \"timestamp\": new Date(),\n    \"image\": msg.payload.image\n});\n\nflow.set(\"imageData\", imageData)\n\nreturn {payload: imageData};",
-    "outputs": 1,
-    "noerr": 0,
-    "x": 690,
-    "y": 1000,
+    "x": 1550.9998779296875,
+    "y": 610.7000732421875,
     "wires": [
       [
-        "b8b9f7eb.23ed88"
+        "c05b6f72.49348"
       ]
     ]
   },
   {
-    "id": "4d332126.2a54",
+    "id": "9e3d3ccc.cb66d",
+    "type": "function",
+    "z": "36d0c2fb.a9b7be",
+    "name": "Store Image Data",
+    "func": "// get all the image data\nlet imageData = flow.get(\"imageData\") || [];\n\n// store the image\nimageData.push({\n    \"timestamp\": new Date(),\n    \"image\": msg.payload.image\n});\n\nflow.set(\"imageData\", imageData)\n\nreturn {payload: imageData};",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 590.8714599609375,
+    "y": 543.1571044921875,
+    "wires": [
+      [
+        "556f6cd.b20a014",
+        "7fd92732.33fd18"
+      ]
+    ]
+  },
+  {
+    "id": "39f650c6.066c88",
     "type": "http in",
-    "z": "c1db979c.a832b8",
+    "z": "36d0c2fb.a9b7be",
     "name": "Image Upload",
     "url": "/image-upload2",
     "method": "post",
     "upload": true,
     "swaggerDoc": "",
-    "x": 327.5,
-    "y": 1007.1429443359375,
+    "x": 228.3714599609375,
+    "y": 550.300048828125,
     "wires": [
       [
-        "c65fa0a2.f6765",
-        "da32a0ea.e402"
+        "45fde255.fb7644",
+        "9e3d3ccc.cb66d"
       ]
     ]
   },
   {
-    "id": "c65fa0a2.f6765",
+    "id": "45fde255.fb7644",
     "type": "http response",
-    "z": "c1db979c.a832b8",
+    "z": "36d0c2fb.a9b7be",
     "name": "Success Response",
     "statusCode": "200",
     "headers": {
       "Access-Control-Allow-Origin": "*"
     },
-    "x": 551.5,
-    "y": 1153.1429443359375,
+    "x": 452.3714599609375,
+    "y": 696.300048828125,
     "wires": []
   },
   {
-    "id": "326c1972.cf4ec6",
+    "id": "b3429f62.8e1718",
     "type": "ui_button",
-    "z": "c1db979c.a832b8",
+    "z": "36d0c2fb.a9b7be",
     "name": "Clear Data",
     "group": "f5626cc9.c02db",
     "order": 0,
@@ -116,18 +119,18 @@
     "payload": "true",
     "payloadType": "bool",
     "topic": "",
-    "x": 1432.25,
-    "y": 1018.6429443359375,
+    "x": 1333.1214599609375,
+    "y": 561.800048828125,
     "wires": [
       [
-        "5ba2dab.2908524"
+        "1a73c86e.ee9f1"
       ]
     ]
   },
   {
-    "id": "ff708616.871b18",
+    "id": "20165437.fd0044",
     "type": "ui_template",
-    "z": "c1db979c.a832b8",
+    "z": "36d0c2fb.a9b7be",
     "group": "f5626cc9.c02db",
     "name": "List of all images",
     "order": 6,
@@ -137,58 +140,60 @@
     "storeOutMessages": true,
     "fwdInMessages": false,
     "templateScope": "local",
-    "x": 1398.5,
-    "y": 836,
+    "x": 1299.3714599609375,
+    "y": 379.1571044921875,
     "wires": [
       []
     ]
   },
   {
-    "id": "b2a704ff.c55348",
+    "id": "c05b6f72.49348",
     "type": "function",
-    "z": "c1db979c.a832b8",
+    "z": "36d0c2fb.a9b7be",
     "name": "Load Images",
     "func": "let imageData = flow.get(\"imageData\");\nlet classificationData = flow.get(\"classificationData\");\n\nif (imageData && classificationData) {\n imageData.forEach((item, i) => {\n     if (classificationData[i]) {\n        item.class = classificationData[i].class;\n        item.score = classificationData[i].score;\n     }\n})\n   \n}\n\n// check if their is an image for the selected deivce\nif (imageData !== undefined) {\n    return {\"payload\":imageData};   \n} else {\n    return {\"payload\":\"\"};\n}",
     "outputs": 1,
     "noerr": 0,
-    "x": 1205.5,
-    "y": 892,
+    "x": 1106.3714599609375,
+    "y": 435.1571044921875,
     "wires": [
       [
-        "ff708616.871b18"
+        "20165437.fd0044"
       ]
     ]
   },
   {
-    "id": "b8b9f7eb.23ed88",
+    "id": "556f6cd.b20a014",
     "type": "debug",
-    "z": "c1db979c.a832b8",
+    "z": "36d0c2fb.a9b7be",
     "name": "",
     "active": true,
     "console": "false",
     "complete": "true",
-    "x": 724,
-    "y": 1115.5,
+    "x": 624.8714599609375,
+    "y": 658.6571044921875,
     "wires": []
   },
   {
-    "id": "a8b6bb69.0c295",
+    "id": "7fd92732.33fd18",
     "type": "visual-recognition-v3",
-    "z": "c1db979c.a832b8",
+    "z": "36d0c2fb.a9b7be",
     "name": "",
     "vr-service-endpoint": "https://gateway-a.watsonplatform.net/visual-recognition/api",
     "image-feature": "classifyImage",
     "lang": "en",
-    "x": 560,
-    "y": 820,
+    "x": 690,
+    "y": 280,
     "wires": [
-      []
+      [
+        "3081abf9.64fcf4"
+      ]
     ]
   },
   {
-    "id": "81820824.bc85e8",
+    "id": "14220af2.36c045",
     "type": "debug",
-    "z": "c1db979c.a832b8",
+    "z": "36d0c2fb.a9b7be",
     "name": "",
     "active": true,
     "tosidebar": true,
@@ -196,44 +201,44 @@
     "tostatus": false,
     "complete": "true",
     "targetType": "full",
-    "x": 790,
-    "y": 660,
+    "x": 670,
+    "y": 180,
     "wires": []
   },
   {
-    "id": "60517a56.69d15c",
+    "id": "c98796b.9a00168",
     "type": "function",
-    "z": "c1db979c.a832b8",
+    "z": "36d0c2fb.a9b7be",
     "name": "",
     "func": "msg = {\n    \"payload\":\"https://assets.porttechnology.org/images/made/images/uploads/news/Hapag_Lloyd_Barzan_590_330_84.jpg\",\n    \"params\":{\n        \"classifier_ids\":\"DefaultCustomModel_924895071\"\n    }\n}\nreturn msg;",
     "outputs": 1,
     "noerr": 0,
-    "x": 330,
-    "y": 820,
+    "x": 450,
+    "y": 280,
     "wires": [
       [
-        "a8b6bb69.0c295"
+        "7fd92732.33fd18"
       ]
     ]
   },
   {
-    "id": "706cecb4.5e45a4",
+    "id": "627b9796.7536c",
     "type": "visual-recognition-util-v3",
-    "z": "c1db979c.a832b8",
+    "z": "36d0c2fb.a9b7be",
     "name": "",
     "image-feature": "retrieveClassifiersList",
-    "x": 560,
-    "y": 640,
+    "x": 460.8714599609375,
+    "y": 183.1571044921875,
     "wires": [
       [
-        "81820824.bc85e8"
+        "14220af2.36c045"
       ]
     ]
   },
   {
-    "id": "4ea8d424.4f9d4c",
+    "id": "60055ad9.4a9c84",
     "type": "inject",
-    "z": "c1db979c.a832b8",
+    "z": "36d0c2fb.a9b7be",
     "name": "",
     "topic": "",
     "payload": "https://assets.porttechnology.org/images/made/images/uploads/news/Hapag_Lloyd_Barzan_590_330_84.jpg",
@@ -242,18 +247,18 @@
     "crontab": "",
     "once": false,
     "onceDelay": 0.1,
-    "x": 220,
-    "y": 920,
+    "x": 240,
+    "y": 300,
     "wires": [
       [
-        "60517a56.69d15c"
+        "c98796b.9a00168"
       ]
     ]
   },
   {
-    "id": "e3f1ae9f.05c1b",
+    "id": "366ff68b.7af862",
     "type": "inject",
-    "z": "c1db979c.a832b8",
+    "z": "36d0c2fb.a9b7be",
     "name": "",
     "topic": "",
     "payload": "",
@@ -261,12 +266,26 @@
     "repeat": "",
     "crontab": "",
     "once": false,
-    "x": 360,
-    "y": 698.25,
+    "x": 240,
+    "y": 180,
     "wires": [
       [
-        "706cecb4.5e45a4"
+        "627b9796.7536c"
       ]
+    ]
+  },
+  {
+    "id": "3081abf9.64fcf4",
+    "type": "function",
+    "z": "36d0c2fb.a9b7be",
+    "name": "Store Data",
+    "func": "\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 910,
+    "y": 280,
+    "wires": [
+      []
     ]
   },
   {
